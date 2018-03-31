@@ -43,7 +43,7 @@ bundle install'''
         stage('Unit') {
           steps {
             sh '''  
-#docker run -dt -e POSTGRES_DB=gitlabhq_test -p 5432:5432 postgres:9
+docker run -dt -e POSTGRES_DB=metasploit_framework_test -p 5432:5432 postgres:9
 bundle exec rspec'''
             script {
               publishHTML(target: [
