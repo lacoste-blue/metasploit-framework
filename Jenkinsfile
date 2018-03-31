@@ -79,6 +79,18 @@ bundle exec rspec'''
             
           }
         }
+      }
+    }
+    stage('Kill') {
+      parallel {
+        stage('Kill') {
+          steps {
+            catchError() {
+              sh 'docker kill $(docker ps -q)'
+            }
+            
+          }
+        }
         stage('Quality') {
           steps {
             sh 'bundle exec rubycritic --no-browser'
@@ -96,14 +108,6 @@ bundle exec rspec'''
             
           }
         }
-      }
-    }
-    stage('Kill') {
-      steps {
-        catchError() {
-          sh 'docker kill $(docker ps -q)'
-        }
-        
       }
     }
   }
