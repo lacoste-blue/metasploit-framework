@@ -44,6 +44,7 @@ group :development, :test do
   # environment is development
   gem 'rspec-rails'
   gem 'rspec-rerun'
+  gem 'rubycritic'
 end
 
 group :test do
