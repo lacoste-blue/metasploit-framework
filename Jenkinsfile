@@ -42,9 +42,11 @@ bundle install'''
         }
         stage('Unit') {
           steps {
-            sh '''  
-docker run -dt -e POSTGRES_DB=metasploit_framework_test -p 5432:5432 postgres:9
+            catchError() {
+              sh '''docker run -dt -e POSTGRES_DB=metasploit_framework_test -p 5432:5432 postgres:9
 bundle exec rspec'''
+            }
+            
             script {
               publishHTML(target: [
                 allowMissing: false,
@@ -79,18 +81,6 @@ bundle exec rspec'''
             
           }
         }
-      }
-    }
-    stage('Kill') {
-      parallel {
-        stage('Kill') {
-          steps {
-            catchError() {
-              sh 'docker kill $(docker ps -q)'
-            }
-            
-          }
-        }
         stage('Quality') {
           steps {
             sh 'bundle exec rubycritic --no-browser'
@@ -108,6 +98,14 @@ bundle exec rspec'''
             
           }
         }
+      }
+    }
+    stage('Kill') {
+      steps {
+        catchError() {
+          sh 'docker kill $(docker ps -q)'
+        }
+        
       }
     }
   }
