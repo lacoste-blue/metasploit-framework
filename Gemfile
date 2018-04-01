@@ -45,6 +45,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-rerun'
   gem 'rubycritic'
+  gem 'rspec_yah_formatter'
 end
 
 group :test do
