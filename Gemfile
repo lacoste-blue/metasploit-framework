@@ -54,5 +54,4 @@ group :test do
 end
 
 gem 'rubocop'
-gem 'mutant'
 gem 'mutant-rspec'
