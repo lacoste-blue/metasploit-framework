@@ -83,7 +83,10 @@ bundle exec rspec'''
         }
         stage('Quality') {
           steps {
-            sh 'bundle exec rubycritic --no-browser'
+            catchError() {
+              sh 'bundle exec rubycritic --no-browser'
+            }
+            
             script {
               publishHTML(target: [
                 allowMissing: false,
@@ -98,6 +101,27 @@ bundle exec rspec'''
             
           }
         }
+      }
+    }
+    stage('Mutate') {
+      steps {
+        catchError() {
+          sh '''RAILS_ENV=test bundle exec mutant -r ./config/environment --use rspec User
+'''
+        }
+        
+        script {
+          publishHTML(target: [
+            allowMissing: false,
+            alwaysLinkToLastBuild: false,
+            keepAll: true,
+            reportDir: 'coverage',
+            reportFiles: 'index.html',
+            reportTitles: "Mutation Report",
+            reportName: "Mutation Report"
+          ])
+        }
+        
       }
     }
     stage('Kill') {
