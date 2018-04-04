@@ -55,3 +55,4 @@ end
 
 gem 'rubocop'
 gem 'mutant'
+gem 'mutant-rspec
